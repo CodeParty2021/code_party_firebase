@@ -1,0 +1,42 @@
+{
+  "rules": {
+    ".read":false,
+    ".write":false,
+    "RoomApp":{
+      "rooms": {
+        "$room_id":{
+      		".read": true,
+      		".write": true,
+          "name":{".validate":"newData.isString()"},
+          "host":{".validate":"newData.isString()"},
+          "state":{".validate":"newData.isString() && (newData.val() === 'waiting' || newData.val() === 'watching')"},
+          "analyzingResult":{
+            ".validate":"newData.hasChildren(['resultId']) || newData.hasChildren(['error'])"
+        	}
+    		}
+      },
+      "members": {
+      	".write": "!newData.hasChild('displayName')",
+				"$room_id":{
+          ".read": true,
+          "$user_id":{
+      			".read": true
+          }
+        }
+      },
+      "actions" : {
+				"$room_id":{
+          ".read" : true,
+      		".write": "auth != null",
+          "$action_id":{
+      			".read": "auth != null",
+      			".write": "auth != null",
+            ".validate":  "newData.hasChildren(['userId','actionType'])",
+            "userId":{".validate":"newData.isString()"},
+            "actionType":{".validate": "newData.isString()"}
+          }
+        }
+      }
+    }
+  }
+}

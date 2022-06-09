@@ -1,0 +1,10 @@
+{
+  "name": "code_party_firebase",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "firebase-tools": "^11.0.1"
+  },
+  "scripts": {
+    "start": "firebase emulators:start"
+  }
+}
