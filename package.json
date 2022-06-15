@@ -6,7 +6,7 @@
   },
   "scripts": {
     "start": "firebase emulators:start",
-    "test": "jest"
+    "test": "firebase emulators:exec --only database 'node_modules/.bin/jest' --token $FIREBASE_CLI_TOKEN"
   },
   "devDependencies": {
     "@firebase/rules-unit-testing": "^2.0.2",
