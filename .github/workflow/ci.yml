@@ -1,21 +1,22 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CD
+name: CI
 
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
-  push:
-    branches: [published]
+  pull_request:
+    branches: [master, published]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  deploy:
+  test:
     name: Deploy rules
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
+    env:
+      FIREBASE_CLI_TOKEN: ${{ secrets.FIREBASE_CLI_TOKEN }}
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -24,7 +25,12 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: "16.11.0"
+      - uses: actions/setup-java@v1
+        with:
+          java-version: "15.0.2"
+          java-package: jdk
+          architecture: x64
       - name: Install Packages
         run: yarn install
-      - name: Deploy
-        run: yarn firebase deploy --token "${{ secrets.FIREBASE_CLI_TOKEN }}"
+      - name: jest
+        run: yarn test

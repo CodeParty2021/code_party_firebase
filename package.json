@@ -5,15 +5,18 @@
     "firebase": "9.6.9"
   },
   "scripts": {
-    "start": "firebase emulators:start",
-    "test": "firebase emulators:exec --only database 'node_modules/.bin/jest' --token $FIREBASE_CLI_TOKEN"
+    "start": "firebase emulators:start --token $FIREBASE_CLI_TOKEN",
+    "test": "firebase emulators:exec --only database 'yarn run jest' --token $FIREBASE_CLI_TOKEN",
+    "test:watch": "firebase emulators:exec --only database 'yarn run jest --watch --detectOpenHandles' --token $FIREBASE_CLI_TOKEN"
   },
   "devDependencies": {
     "@firebase/rules-unit-testing": "^2.0.2",
     "@types/jest": "^28.1.1",
+    "@types/uuid": "^8.3.4",
     "firebase-tools": "^11.1.0",
     "jest": "^28.1.1",
     "ts-jest": "^28.0.4",
-    "typescript": "^4.7.3"
+    "typescript": "^4.7.3",
+    "uuid": "^8.3.2"
   }
 }
