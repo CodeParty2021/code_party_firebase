@@ -32,5 +32,9 @@ jobs:
           architecture: x64
       - name: Install Packages
         run: yarn install
+      - name: prettier format check
+        run: yarn format
+      - name: eslint review
+        run: yarn lint
       - name: jest
         run: yarn test

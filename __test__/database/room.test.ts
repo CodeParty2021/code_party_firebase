@@ -1,6 +1,11 @@
-import * as fs from 'fs';
-import { v4 } from 'uuid';
-import { assertFails, assertSucceeds, initializeTestEnvironment, RulesTestEnvironment } from '@firebase/rules-unit-testing';
+import * as fs from "fs";
+import { v4 } from "uuid";
+import {
+  assertFails,
+  assertSucceeds,
+  initializeTestEnvironment,
+  RulesTestEnvironment,
+} from "@firebase/rules-unit-testing";
 import { get, ref, set } from "firebase/database";
 
 // プロジェクトID
@@ -30,8 +35,8 @@ beforeAll(async () => {
   testEnv = await initializeTestEnvironment({
     projectId,
     database: {
-      rules: fs.readFileSync("./database.rules.json", "utf8")
-    }
+      rules: fs.readFileSync("./database.rules.json", "utf8"),
+    },
   });
 });
 
@@ -39,12 +44,12 @@ beforeAll(async () => {
 beforeEach(async () => {
   await testEnv.clearDatabase();
   //初期データをセット
-  await testEnv.withSecurityRulesDisabled(async context => {
-    const noRuleDB = context.database()
+  await testEnv.withSecurityRulesDisabled(async (context) => {
+    const noRuleDB = context.database();
     await set(ref(noRuleDB, "/RoomApp/rooms/roomid"), {
       name: "room name",
     });
-  })
+  });
 });
 
 // テスト終了処理
@@ -55,19 +60,15 @@ afterAll(async () => {
 describe("Realtime Database", () => {
   it("Fail test", async () => {
     const unauthDB = getUnauthDB(testEnv);
-    //トップレベルは.read=falseなので失敗する
-    await assertFails(
-      get(ref(unauthDB, "/"))
-    );
+    // トップレベルは.read=falseなので失敗する
+    await assertFails(get(ref(unauthDB, "/")));
   });
 
   it("Success test", async () => {
     const authDB = getAuthDB(testEnv);
-    //取得してログ表示もできます
+    // 取得してログ表示もできます
     console.log((await get(ref(authDB, "/RoomApp/rooms/roomid"))).val());
-    //.read=trueなので成功する
-    await assertSucceeds(
-      get(ref(authDB, "/RoomApp/rooms/roomid"))
-    );
+    // .read=trueなので成功する
+    await assertSucceeds(get(ref(authDB, "/RoomApp/rooms/roomid")));
   });
 });
