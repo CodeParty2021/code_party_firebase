@@ -1,6 +1,11 @@
 # code_party_firebase
 CodepartyのFirebaseプロジェクトを管理するリポジトリ
 
+# 目次
+- [環境構築（Docker）](#環境構築docker)
+- [テスト実行](#テスト実行)
+- [構文チェック・フォーマッター](#構文チェックフォーマッター)
+
 # 環境構築（Docker）
 - 以下を実行
 ```
@@ -20,4 +25,16 @@ $ docker-compose run --rm firebase yarn
 - コンテナ内で以下を実行
 ```
 # yarn test:watch
+```
+
+# 構文チェック・フォーマッター
+- 構文チェックにはESLintを、フォーマッターにはPrettierを使用しています。
+- CIでそれぞれチェックされるのでpush前に修正コマンドを実行しましょう。
+- 以下のコマンドでそれぞれ修正してくれます。
+```
+# Macユーザ以外
+$ yarn fixall
+
+# Macユーザ
+$ yarn fixallmac
 ```
